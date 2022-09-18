@@ -19,7 +19,7 @@ char whichPlayer(int currentPlayer)
     {
         return 'X';
     }
-    else 
+    else
     {
         return 'O';
     }
@@ -37,12 +37,11 @@ int checkIfPosEmpty(int positions[3][3], int move[2], int turn)
     {
         return makeMove(positions, move, turn);
     }
-    else 
+    else
     {
         return 0;
     }
 }
-
 
 int main()
 {
