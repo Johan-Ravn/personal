@@ -13,95 +13,64 @@ void drawBoard(char positions[3][3])
     }
 }
 
-int checkForWinner(char positions[3][3])
+int legalMove(char *board, int *move)
 {
-    // check if no available spaces
-    int gameOver = 1;
-
-    for (int i = 0; i < 3; i++)
-    {
-        for (int j = 0; j < 3; j++)
-        {
-            if (positions[i][j] == '_')
-            {
-                gameOver = 0;
-            }
-        }
-    }
-    if (gameOver == 1)
+    if (board[move[0] * 3 + move[1]] == '_')
     {
         return 1;
     }
-
-    // checking vertical
-    for (int i = 0; i < 3; i++)
-    {
-        if (positions[i][0] == positions[i][1] == positions[i][2] && positions[i][0] != '_')
-        {
-            return 1;
-        }
-    }
-
-    // Checking for horizontal
-    for (int i = 0; i < 3; i++)
-    {
-        if (positions[0][i] == positions[1][i] == positions[2][i] && positions[0][i] != '_')
-        {
-            return 1;
-        }
-    }
-    // Checking for diagonals
-    if (positions[0][0] == positions[1][1] == positions[2][2] && positions[1][1] != '_')
-    {
-        return 1;
-    }
-    else if (positions[0][2] == positions[1][1] == positions[2][0] && positions[1][1] != '_')
-    {
-        return 1;
-    }
-    else // if none of the above, game still going
+    else
     {
         return 0;
     }
 }
 
-char whichPlayer(int currentPlayer)
+char whichPlayer(char currentPlayer)
 {
     if (currentPlayer == 1)
     {
         return 'X';
     }
-    else if (currentPlayer == -1)
+    else
     {
         return 'O';
     }
-    else
-    {
-        return '_';
-    }
 }
 
-int checkForLegalMove(char pos)
+int checkGameOver(char *board)
 {
-    if (pos != '_')
+    // Check for no available spaces
+    int freeSpaces = 9;
+    for (int i = 0; i < 3; ++i)
     {
-        return 1;
+        for (int j = 0; j < 3; ++j)
+        {
+            if (board[i * 3 + j] != '_')
+            {
+                --freeSpaces;
+            }
+        }
     }
-    else
+    if (freeSpaces <= 0)
     {
         return 0;
     }
-}
 
-int makeMove(char positions[3][3], int move[2])
-{
-    if (checkForLegalMove(positions[move[0]][move[1]]) != 0)
+    // Checks verticals
+    for (int i = 0; i < 3; ++i)
     {
-        return 1;
+        if (board[i * 3] == board[i * 3 + 1] == board[i * 3 + 2] && board[i * 3] != '_')
+        {
+            return 0;
+        }
     }
-    else
+    // Checks horizontals
+    for (int i = 0; i < 3; ++i)
     {
-        return 0;
+        if (board[i * 3] == board[(1 + i) * 3 + ])
+        {
+            return 0;
+        }
     }
 }
 
@@ -118,29 +87,43 @@ int main()
 
     while (gameStillGoing == 1)
     {
-        int col, row = 0;
-        int move[2] = {0, 0};
-
-        int legalMoveTrue = 0;
+        int moveNotFound = 1;
+        int move[2] = {0};
 
         drawBoard(board);
-        printf("Player %c\n", whichPlayer(currentPlayer));
 
-        while (legalMoveTrue == 0)
-        {
-            printf("\nPlayer %c what move do you wanna make: \n", whichPlayer(currentPlayer));
-            scanf("%d%d", &move[0], &move[1]);
-            if (makeMove(board[3][3], &move[2]) == 1)
-            {
-                board[move[0]][move[1]] = whichPlayer(currentPlayer);
-                legalMoveTrue = 1;
-            }
-        }
-        if (checkForWinner(board[3][3]) == 1)
+        // Checks if game is over
+        if (checkGameOver((char *)board) == 0)
         {
             gameStillGoing = 0;
+            break;
         }
+
+        while (moveNotFound == 1)
+        {
+            for (int i = 0; i < 3; ++i)
+            {
+                if (moveNotFound == 0)
+                {
+                    break;
+                }
+                for (int j = 0; j < 3; j++)
+                {
+                    int tryMove[2] = {i, j};
+                    if (legalMove((char *)board, tryMove) == 1)
+                    {
+                        move[0] = i;
+                        move[1] = j;
+                        moveNotFound = 0;
+                        break;
+                    }
+                }
+            }
+        }
+        board[move[0]][move[1]] = whichPlayer(currentPlayer);
+        currentPlayer = currentPlayer * -1;
     }
+    printf("Game is over");
 
     return 0;
 }
