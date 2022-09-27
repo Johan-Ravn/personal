@@ -159,6 +159,12 @@ int main()
         }
     }
     printf("\nGame is over\n");
+
+    if (gameStillGoing == 2)
+    {
+        printf("It's a tie");
+    }
+
     printf("\n Player %c won", whichPlayer(currentPlayer * -1));
 
     return 0;
