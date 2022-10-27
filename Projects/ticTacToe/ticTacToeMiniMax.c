@@ -14,7 +14,6 @@ void drawBoard(char *board)
     }
 }
 
-// works
 char whichPlayer(int player)
 {
     char rVal = 'Z';
@@ -88,83 +87,57 @@ int gameState(char *board)
     return 0;
 }
 
-int miniMax(char *board, int player)
+// miniMax algorithm
+int miniMaxFunc(char *board, int player)
 {
-    int game = gameState(board);
-    if (game != 0)
+    int score = gameState(board);
+    if (score == 1)
     {
-        if (game == 1)
-        {
-            if (whichPlayer(-1 * (player)) == 'O')
-            {
-                return MIN;
-            }
-            else if (whichPlayer(-1 * (player)) == 'X')
-            {
-                return MAX;
-            }
-        }
-        else if (game == 2)
-        {
-            return 0;
-        }
-        else
-        {
-            exit(EXIT_FAILURE);
-        }
+        return score * player;
+    }
+    else if (score == 2)
+    {
+        return 0;
     }
 
-    // maximizing player
-    else if (player == 1)
+    int bestScore = (player == 1) ? MIN : MAX;
+    for (int i = 0; i < 3; ++i)
     {
-        int bestScore = MIN;
-
-        for (int i = 0; i < 9; ++i)
+        for (int j = 0; j < 3; ++j)
         {
-            if (board[i] == '_')
+            int move[2] = {i, j};
+            if (moveLegal(board, move))
             {
-                board[i] = whichPlayer(player);
-                int score = miniMax(board, -1 * player);
-                board[i] = '_';
-                if (score >= bestScore)
+                makeMove(board, move, player);
+                int score = miniMaxFunc(board, player * -1);
+                board[move[0] * 3 + move[1]] = '_';
+                if (player == 1)
                 {
-                    bestScore = score;
+                    if (score > bestScore)
+                    {
+                        bestScore = score;
+                    }
+                }
+                else
+                {
+                    if (score < bestScore)
+                    {
+                        bestScore = score;
+                    }
                 }
             }
         }
-        return bestScore;
     }
-
-    // minimizing player
-    else if (player == -1)
-    {
-        int bestScore = MAX;
-
-        for (int i = 0; i < 9; ++i)
-        {
-            if (board[i] == '_')
-            {
-                board[i] = whichPlayer(player);
-                int score = miniMax(board, -1 * player);
-                board[i] = '_';
-                if (score <= bestScore)
-                {
-                    bestScore = score;
-                }
-            }
-        }
-        return bestScore;
-    }
-    else
-        exit(EXIT_FAILURE);
-    return 0;
+    return bestScore;
 }
+
+
 
 void bestMove(char *board, int player, int *ptrRow, int *ptrCol)
 {
     int bestMove[2] = {0, 0};
     int iterationBestMove = 0;
-    int minEval = MIN;
+    int minEval = -100;
 
     // code. Runs through all possible moves, and returns the best move
     for (int i = 0; i < 9; ++i)
@@ -174,7 +147,8 @@ void bestMove(char *board, int player, int *ptrRow, int *ptrCol)
             board[i] = whichPlayer(player);
             int evalPos = miniMax(board, -1 * player);
             board[i] = '_';
-            if (evalPos >= minEval)
+            printf("Eval pos: %d, min eval: %d\n", evalPos, minEval);
+            if (evalPos > minEval)
             {
                 minEval = evalPos;
                 iterationBestMove = i;
