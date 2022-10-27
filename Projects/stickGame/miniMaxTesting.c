@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <math.h>
 
 int miniMax(int sticks, int currentPlayer)
 {
@@ -99,14 +100,24 @@ int game(int sticks, int currentPlayer)
 int main()
 {
     srand(time(NULL));
+    // scoreboard
     int winnerRandom = 0;
     int winnerAi = 0;
+
+    // init
+    const int games = 500;
     const int sticks = 11;
     const int player = 1;
 
-    for (int i = 0; i < 10000; i++)
+    // elo
+    int compElo = 400;
+    int randElo = 400;
+
+    for (int i = 0; i < games; i++)
     {
-        if (game(sticks, player) == 1)
+        int winner = game(sticks, player); 
+
+        if (winner = 1)
         {
             winnerAi++;
         }
