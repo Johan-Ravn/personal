@@ -29,7 +29,7 @@ int prime(int num, int divisor){
 }
 
 int main(void){
-    int maxNum = 100000; // askInput();
+    int maxNum = 1000000; // askInput();
     int *primes = (int *) malloc(maxNum);
 
     clock_t start, end;
