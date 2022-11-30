@@ -3,33 +3,49 @@
 #include <string.h>
 #include <math.h>
 
-char *fizzBuzz(int num){
-    if ((num % 3 == 0) && (num % 5 == 0)){
-        return "fizzbuzz";
-    }
-    else if(num % 3 == 0){
+const char *enum_mapping(int enum_num){
+    switch (enum_num){
+    case 0:
         return "fizz";
-    }
-    else if (num % 5 == 0){
+        break;
+    case 1:
         return "buzz";
+        break;
+
+    default:
+        exit(EXIT_FAILURE);
+        break;
     }
-    return "";
 }
 
+const char *fizzBuzz(int num){
+    enum words{
+        FIZZ,
+        BUZZ,
+    };
+
+    char *return_value = (char *)(malloc(100) + 1);
+
+    if (num % 3 == 0){
+        strcat(return_value, enum_mapping(FIZZ));
+    }
+    if (num % 5 == 0){
+        strcat(return_value, enum_mapping(BUZZ));
+    }
+
+    return return_value;
+}
 
 int main(void){
-    int num = 100;
+    int maxCount = 10000;
 
-    for (int i = 1; i <= 100; i++){
-        char *word = (char*)(malloc(100));
-        strcpy(word, fizzBuzz(i));
+    for (int i = 1; i <= maxCount; i++){
+        const char *word = fizzBuzz(i);
         if (strcmp(word, "") == 0){
             printf("%d: %d\n", i, i);
         }
         else{
             printf("%d: %s\n", i, word);
         }
-        free(word);
     }
-    
 }
