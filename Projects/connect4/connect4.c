@@ -1,116 +1,50 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <math.h>
 
-void makeMove(int player, int *ptrBoard, int move);
-int checkWin(int *board);
-int getMove();
-int moveLegal(int move, int *board);
-void gravity(int *ptrBoard, int move);
-void printBoard(int *board);
+#define BOARD_SIZE 3
+#define EMPTY_SPACE '-'
 
-// check if any 4 index in row, column, diagonal is the same thing
-int checkWin(int *board)
-{
-    // Column
-    for (int i = 0; i < 6; i++)
-    {
-        for (int j = 0; j < 4; j++)
-        {
-            for (int n = 0; n < 3; n++)
-            {
-                if (board[(n + j) + (i * 7)] == board[(1 + n + j) + (i * 7)] && board[(n + j) + (i * 7)] != 0)
-                {
-                    if (n == 3)
-                    {
-                        printf("AAAAA");
-                        return 1;
-                    }
-                }
-                else
-                    break;
-            }
-        }
-    }
+void board_print(int *board[BOARD_SIZE]);
+char convert_player(int player);
+void init_board(int *board[BOARD_SIZE]);
+bool winner(int *board[BOARD_SIZE]);
+bool legal_move(int *board[BOARD_SIZE], int *move);
+void make_move(int *board[BOARD_SIZE], int *move);
 
-    return 0;
-}
-void printBoard(int *board)
-{
-    for (int i = 0; i < 6; i++)
-    {
-        printf("%d  | %d  | %d  | %d  | %d  | %d  | %d\n", board[0 + (i * 7)], board[1 + (i * 7)], board[2 + (i * 7)], board[3 + (i * 7)], board[4 + (i * 7)], board[5 + (i * 7)], board[6 + (i * 7)]);
-        printf("_________________________\n");
-    }
-}
-
-int moveLegal(int move, int *board)
-{
-    int boardPos = board[move];
-    if (boardPos == 0)
-        return 1;
-    else
-        return 0;
-}
-
-int getMove(int *board)
-{
-    while (1)
-    {
-        int move = 9;
-        printf("What move do you wanna make?\n");
-        scanf("%d", &move);
-        if (move >= 0 && move < 7 && moveLegal(move, board))
-        {
-            return move;
-        }
-    }
-}
-
-void gravity(int *ptrBoard, int move)
-{
-    int currentFile = move;
-    while (currentFile <= 34)
-    {
-        if (ptrBoard[currentFile + 7] == 0)
-        {
-            ptrBoard[currentFile + 7] = ptrBoard[currentFile];
-            ptrBoard[currentFile] = 0;
-            currentFile += 7;
-        }
-        else
-            break;
-    }
-}
-
-void makeMove(int player, int *ptrBoard, int move)
-{
-    ptrBoard[move] = player;
-}
-
-int main()
-{
-    int board[42] = {0, 0, 0, 0, 0, 0, 0,
-                     0, 0, 0, 0, 0, 0, 0,
-                     0, 0, 0, 0, 0, 0, 0,
-                     0, 0, 0, 0, 0, 0, 0,
-                     0, 0, 0, 0, 0, 0, 0,
-                     0, 0, 0, 0, 1, 1, 1};
-    int winner = 0;
+int main(void){
     int player = 1;
+    int board[BOARD_SIZE][BOARD_SIZE];
 
-    while (1)
-    {
-        printBoard(board);
-        if (checkWin(board) != 0)
-        {
-            winner = checkWin(board);
-            break;
+    init_board(board);
+}
+
+void init_board(int *board[BOARD_SIZE]){
+    for (int i = 0; i < BOARD_SIZE; i++){
+        for (int j = 0; j < BOARD_SIZE; j++){
+            board[i][j] = 0;
         }
-        int move = getMove(board);
-        makeMove(player, board, move);
-        gravity(board, move);
-        player *= -1;
     }
+}
 
-    return 0;
+char convert_player(int player){
+    if (player == 1) return 'X';
+    if (player == -1) return 'O';
+    return EMPTY_SPACE;
+}
+
+void board_print(int *board[BOARD_SIZE]){
+    char player_1 = 'X';
+    char player_2 = 'O';
+
+    for (int i = 0; i < BOARD_SIZE; i++){
+        printf("|\t");
+        for (int j = 0; j < BOARD_SIZE; j++){
+            printf("%c\t|", convert_player(board[i][j]));
+        }
+        printf("-----------");
+    }
 }
