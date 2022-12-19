@@ -1,19 +1,4 @@
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include <math.h>
-#include <stdbool.h>
-#include <stdint.h>
-
-#define TABLE_SIZE 5
-#define NAME_SIZE 256
-
-typedef struct {
-    char name[NAME_SIZE];
-    int age;
-}person;
-
-person *hash_table[TABLE_SIZE];
+#include "hash_table.h"
 
 unsigned int hash(char *name){
     int hash_value = 0;
@@ -25,7 +10,7 @@ unsigned int hash(char *name){
     return hash_value;
 }
 
-bool insert_person(person *p){
+bool insert_person(person *p) {
     if (p == NULL) return false;
     int index = hash(p->name);
     for (int i = 0; i < TABLE_SIZE; i++){
@@ -40,13 +25,13 @@ bool insert_person(person *p){
 }
 
 // init table
-void initialize_hash_table(){
+void initialize_hash_table() {
     for (int i = 0; i < TABLE_SIZE; i++){
         hash_table[i] = NULL;
     }
 }
 
-void print_hash_table(){
+void print_hash_table() {
     printf("START\n");
     for (int i = 0; i < TABLE_SIZE; i++){
         if (hash_table[i] == NULL){
@@ -58,7 +43,7 @@ void print_hash_table(){
     printf("END\n\n");
 }
 
-person *hash_table_lookup(char *name){
+person *hash_table_lookup(char *name) {
     int index = hash(name);
     if (hash_table[index] != NULL &&
         strcmp(hash_table[index]->name, name) == 0){
@@ -67,7 +52,7 @@ person *hash_table_lookup(char *name){
     return NULL;
 }
 
-person *hash_table_delete(char *name){
+person *hash_table_delete(char *name) {
     int index = hash(name);
     if (hash_table[index] != NULL &&
         strcmp(hash_table[index]->name, name) == 0){
@@ -78,7 +63,7 @@ person *hash_table_delete(char *name){
     return NULL;
 }
 
-void get_info(char *ptr_name[NAME_SIZE], int *ptr_age, int *ptr_mode){
+void get_info(char *ptr_name[NAME_SIZE], int *ptr_age, int *ptr_mode) {
     printf("Which operations would you like to make? \n");
     int operation = -1;
     while(true){
@@ -144,7 +129,7 @@ void get_info(char *ptr_name[NAME_SIZE], int *ptr_age, int *ptr_mode){
     }
 }
 
-void driver_hash_table(person p, int mode){
+void driver_hash_table(person p, int mode) {
     switch (mode){
         case 0: // print
             print_hash_table();

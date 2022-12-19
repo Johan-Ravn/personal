@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include <time.h>
+#include "prime.h"
 
 int askInput(){
     while (1){
@@ -15,7 +11,7 @@ int askInput(){
     }
 }
 
-int prime(int num, int divisor){
+int prime(int num, int divisor) {
     if (divisor == 1){
         return 1;
     }

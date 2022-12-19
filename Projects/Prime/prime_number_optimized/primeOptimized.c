@@ -1,13 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include <time.h>
 
-int askInput()
-{
-    while (1)
-    {
+#include "primeOptimized.h"
+
+int askInput() {
+    while (1) {
         int num = -1;
         printf("Max val?: \n");
         scanf("%d", &num);
