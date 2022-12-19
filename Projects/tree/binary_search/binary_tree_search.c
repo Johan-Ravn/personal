@@ -1,25 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-#include <stdint.h>
-#include <math.h>
-
-typedef struct tree_node {
-    int value;
-    struct tree_node *right;
-    struct tree_node *left;
-} tree_node;
-
-tree_node *create_node(int value) {
-    tree_node *result = malloc(sizeof(tree_node));
-    if (result != NULL){
-        result->right = NULL;
-        result->left = NULL;
-        result->value = value;
-    }
-    return result;
-}
+#include "binary_tree_search.h"
 
 bool insert_tree(tree_node **ptr_root, int value) {
     tree_node *root = *ptr_root;
