@@ -1,27 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-#include <stdint.h>
-#include <math.h>
+#include "binary_tree.h"
 
-typedef struct tree_node {
-    int value;
-    struct tree_node *left;
-    struct tree_node *right;
-} tree_node;
-
-tree_node *create_node(int value) {
-    tree_node *result = malloc(sizeof(tree_node));
-    if (result != NULL){
-        result->right = NULL;
-        result->left = NULL;
-        result->value = value;
-    }
-    return result;
-}
-
-void print_tabs(int num_tabs){
+void print_tabs(int num_tabs) {
     for (int i = 0; i <num_tabs; i++){
         printf("\t");
     }
