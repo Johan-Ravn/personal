@@ -1,30 +1,24 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
+#include "fizzbuzz.h"
 
-const char *enum_mapping(int enum_num){
+const char *enum_mapping(int enum_num) {
     switch (enum_num){
     case 0:
         return "fizz";
-        break;
     case 1:
         return "buzz";
-        break;
 
     default:
         exit(EXIT_FAILURE);
-        break;
     }
 }
 
-const char *fizzBuzz(int num){
+const char *fizzBuzz(int num) {
     enum words{
         FIZZ,
         BUZZ,
     };
 
-    char *return_value = (char *)(malloc(100) + 1);
+    char *return_value = malloc(100 * sizeof(char));
 
     if (num % 3 == 0){
         strcat(return_value, enum_mapping(FIZZ));
