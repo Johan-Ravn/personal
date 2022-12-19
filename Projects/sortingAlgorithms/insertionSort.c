@@ -1,6 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
+#include "insertionSort.h"
 
 int randomNum(int maxNum)
 {
@@ -58,7 +56,7 @@ void insertionSort(int* randomArray, int arrayLength)
     printArray(arrayLength, randomArray, 1);
 }
 
-void main()
+int main(void)
 {
     int randomArray[100000] = {0}, arrayLength = sizeof(randomArray) / sizeof(randomArray[0]), maxNum = arrayLength * 2;
     makeList(arrayLength, randomArray, maxNum);

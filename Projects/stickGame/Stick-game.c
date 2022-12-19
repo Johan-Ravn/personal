@@ -1,6 +1,4 @@
-
-#include <stdlib.h>
-#include <stdio.h>
+#include "Stick-game.h"
 
 int main()
 {

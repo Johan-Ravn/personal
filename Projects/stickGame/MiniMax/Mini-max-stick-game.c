@@ -1,9 +1,6 @@
+#include "Mini-max-stick-game.h"
 
-#include <stdlib.h>
-#include <stdio.h>
-
-int miniMax(int sticks, int currentPlayer)
-{
+int miniMax(int sticks, int currentPlayer) {
     if (sticks <= 0)
     {
         return 1000 * -currentPlayer;

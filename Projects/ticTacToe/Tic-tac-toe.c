@@ -1,7 +1,4 @@
-// to do: fix it
-
-#include <stdlib.h>
-#include <stdio.h>
+#include "Tic-tac-toe.h"
 
 void drawBoard(char positions[3][3])
 {

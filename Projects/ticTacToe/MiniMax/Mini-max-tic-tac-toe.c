@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#define MAX 1000
-#define MIN -1000
+#include "Mini-max-tic-tac-toe.h"
 
 // works
 void drawBoard(char *board)
@@ -130,8 +127,6 @@ int miniMaxFunc(char *board, int player)
     }
     return bestScore;
 }
-
-
 
 void bestMove(char *board, int player, int *ptrRow, int *ptrCol)
 {
